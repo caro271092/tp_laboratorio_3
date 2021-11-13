@@ -12,6 +12,7 @@ Employee* employee_new(){ //CONSTRUCTOR por defecto, para el espacio
     return newEmployee;
 }
 
+//Recibe texto del archivo
 Employee* employee_newParametros(char* idStr, char* nombreStr, char* horasTrabajadasStr, char* sueldo){//CONSTRUCTOR parametrizado
     Employee* newEmployee=employee_new();
     if(newEmployee!=NULL && idStr!=NULL && nombreStr!=NULL && horasTrabajadasStr!=NULL && sueldo!=NULL){

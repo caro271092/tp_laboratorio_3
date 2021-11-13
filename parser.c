@@ -1,10 +1,5 @@
 #include "parser.h"
 
-/** \brief Parsea los datos de los empleados desde el archivo data.csv (modo texto).
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- */
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee){
 	int retorno =-1;
 	char id[11];
@@ -16,8 +11,9 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee){
 		fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n",id,nombre,horasTrabajadas,sueldo);
 		while(!feof(pFile)){//mientras no sea el final del archivo
 			fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n",id,nombre,horasTrabajadas,sueldo);
+						//leer ^=hasta la coma dsp coma q separa el dato y en el ult leer hasta el salto y luego dar salto
 			newEmployee = employee_newParametros(id, nombre, horasTrabajadas, sueldo);//construir el empleado convertir de fila de excel a estructura
-			if(newEmployee!=NULL){
+			if(newEmployee!=NULL){														//porque desde el archivo llega en texto, en newParametros lo convertimos
 				ll_add(pArrayListEmployee, newEmployee);//agregar a linked list(es como el array pero en memoria dinámica)
 				retorno=0;
 			}
@@ -26,11 +22,6 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee){
     return retorno;
 }
 
-/** \brief Parsea los datos de los empleados desde el archivo data.csv (modo binario).
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- */
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee){
 	int retorno=-1;
 	int retornoFRead;

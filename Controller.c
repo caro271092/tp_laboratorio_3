@@ -10,10 +10,10 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee){
 			parser = parser_EmployeeFromText(pFile,pArrayListEmployee);//para parsear a estructura
 			if(parser==0){
 				retorno=0;
+				fflush(pFile);
 				fclose(pFile);
 			}
-		}
-		else{
+		}else{
 			printf("\n--->No se pudo leer el archivo.");
 		}
 	}
@@ -22,10 +22,10 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee){
 
 int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee){
 	int retorno= -1;
-	FILE* pFile;
+	FILE* pFile=NULL;
 	int parser;
 	pFile = fopen(path,"rb");
-	if(pFile != NULL){
+	if(pFile != NULL && pArrayListEmployee!=NULL){
 		parser = parser_EmployeeFromBinary(pFile,pArrayListEmployee);
 		if(parser==0){
 			retorno=0;
@@ -243,7 +243,6 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee){
 			employee_getHorasTrabajadas(auxEmployee,&horas);
 			employee_getSueldo(auxEmployee,&sueldo);
 			fprintf(pFile,"%d,%s,%d,%d\n",id,nombre,horas,sueldo);
-			//fwrite(employee,sizeof(Employee),1,pFile);
 		}
 		retorno=0;
 		fflush(pFile);
@@ -264,6 +263,9 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee){
 		for(i=0;i<lenLinkedList;i++){
 			auxEmployee = (Employee*)ll_get(pArrayListEmployee,i);
 			fwrite(auxEmployee,sizeof(Employee),1,pFile);
+/*fwrite se escribe en binario,
+ * por lo que el espacio ocupado por los datos escritos se determina de acuerdo con el tipo de datos
+*/
 		}
 		retorno=0;
 		fflush(pFile);
